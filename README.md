@@ -33,7 +33,7 @@ Define your API. All API have to take Context and UriParams arguments and return
 class WebServer
   def index(context : Context, uriParams : UriParams) : Context
     # ...Write your logic here...
-	return context
+    return context
   end
 end
 ```
@@ -48,26 +48,26 @@ end
 ```
 
 To activate the routes, pass a context from `HTTP::Server` to routing like
-```
+```crystal
 class WebServer
   def run
     server = HTTP::Server.new(3000) do |context|
-	  routing(context) # Pass context to `routing`
-	end
+      routing(context) # Pass context to `routing`
+    end
 
-	server.listen
+    server.listen
   end
 end
 ```
 
 Finally, run your server.
-```
+```crystal
 web_server = WebServer.new
 web_server.run
 ```
 
 UriParams is a Hash(String, String) that is used when you define a path including parameters such as `"/user/:id"`(`:id` is a parameters). Here is an example.
-```
+```crystal
 class WebServer
   def initialize
     get "/user/:id"
@@ -75,13 +75,13 @@ class WebServer
   
   def user_id(context : Context, uriParams : UriParams) : Context
     id = uriParams["id"] # You can refer the :id like this.
-	... Your logics here
-	return context
+    ... Your logics here
+    return context
   end
 end
 ```
 
-See `sample/` for details.
+See [sample](https://github.com/tbrand/route.cr/blob/master/example/sample.cr) for details.
 
 ## Contributing
 
