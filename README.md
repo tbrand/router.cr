@@ -1,5 +1,9 @@
 # route.cr
 
+[![Build Status](https://travis-ci.org/tbrand/route.cr.svg?branch=master)](https://travis-ci.org/tbrand/route.cr)
+[![Dependency Status](https://shards.rocks/badge/github/tbrand/route.cr/status.svg)](https://shards.rocks/github/tbrand/route.cr)
+[![devDependency Status](https://shards.rocks/badge/github/tbrand/route.cr/dev_status.svg)](https://shards.rocks/github/tbrand/route.cr)
+
 The default web server of the Crystal is quite good but it weak at routing.
 Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
 
