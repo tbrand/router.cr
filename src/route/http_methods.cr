@@ -1,6 +1,7 @@
 require "http/server"
 
 module Route
+
   module HttpMethods
 
     HTTP_METHODS = %w(get post put patch delete options)
@@ -9,21 +10,29 @@ module Route
     @routes_methods_regex = {} of String => Hash(Regex, Route)
 
     def search_route(context : Context) : Route?
-
       method = context.request.method
       path   = context.request.resource
 
       return @routes_methods[method][path] if @routes_methods[method].has_key?(path)
 
-      @routes_methods_regex[method].each_key do |regex|
+      @routes_methods_regex[method.upcase].each_key do |r|
 
-        if params = regex.match(path)
-          route_regex = @routes_methods_regex[method][regex]
-          route_regex.params.each_key do |key|
-            route_regex.params[key] = params[key]
+        if params = r.match(path)
+
+          ok = true
+          
+          rr = @routes_methods_regex[method][r]
+          rr.params.each_key do |key|
+            
+            if params[key].includes?("/")
+              ok = false
+              break
+            end
+            
+            rr.params[key] = params[key]
           end
 
-          return route_regex
+          return rr if ok
         end
       end
 
@@ -41,26 +50,26 @@ module Route
           unless @routes_methods.has_key?("{{http_method.id}}".upcase)
             @routes_methods["{{http_method.id}}".upcase] = {} of String => Route
           end
-
+          
           @routes_methods["{{http_method.id}}".upcase][path] = Route.new(proc, {} of String => String?)
-
-          if match = path.scan(/:\w+/)
+          
+          if path.includes?(":")
 
             route_regex = Route.new(proc, {} of String => String?)
-
-            if match.size > 0
-
-              match.each do |param|
-                path = path.gsub(param[0], "(?<id>.*)")
-                route_regex.params[param[0][1..-1]] = nil # trim :
+            
+            path.split("/").each do |part|
+              
+              if part.starts_with?(":")
+                path = path.gsub(part, "(?<#{part[1..-1]}>.*)")
+                route_regex.params[part[1..-1]] = nil
               end
-
+              
               unless @routes_methods_regex.has_key?("{{http_method.id}}".upcase)
                 @routes_methods_regex["{{http_method.id}}".upcase] = {} of Regex => Route
               end
-
-              @routes_methods_regex["{{http_method.id}}".upcase][Regex.new(path)] = route_regex
             end
+
+            @routes_methods_regex["{{http_method.id}}".upcase][Regex.new(path)] = route_regex
           end
         end
       {% end %}

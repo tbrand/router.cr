@@ -1,8 +1,7 @@
 module Route
   module Logger
-
     module Level
-      Develop = 0
+      Develop    = 0
       Production = 1
     end
 

@@ -8,7 +8,6 @@ module Route
   record Route, proc : Proc(Context, UriParams, Context), params : Hash(String, String?)
 
   def routing(context : Context) : Context?
-
     i "#{context.request.method} #{context.request.resource}"
 
     if route = search_route(context)
