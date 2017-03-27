@@ -1,11 +1,13 @@
 require "../src/route"
 
 class MockServer
-  @server : HTTP::Server?
+  @server  : HTTP::Server?
+  @servers = [] of HTTP::Server
 
   def initialize(@port : Int32)
     # Disable all logs
     route_log_level(Production)
+    
     get "/", index
     get "/params/:id", param
     get "/params/:id/test/:test_id", test_param
@@ -44,9 +46,24 @@ class MockServer
     @server = HTTP::Server.new(@port) { |context| routing(context) }.listen
   end
 
+  def spawn_run
+
+    spawn_server(4) do
+
+      server = HTTP::Server.new(@port) { |context| routing(context) }
+      server.listen(true)
+
+      @servers.push(server)
+    end
+  end
+
   def close
     if server = @server
       server.close
+    end
+
+    @servers.each do |s|
+      s.close
     end
   end
 

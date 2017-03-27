@@ -39,14 +39,21 @@ class WebServer
   end
 
   def run
-    # Using default Crystal server
-    server = HTTP::Server.new(3000) do |context|
-      # Just call 'routing' method with the server context
-      # 'routing' returns nil if the route not found
-      routing(context)
-    end
 
-    server.listen
+    # Running server in 4 threads concurrently
+    spawn_server(4) do
+
+      # Using default Crystal server
+      server = HTTP::Server.new(3000) do |context|
+        # Just call 'routing' method with the server context
+        # 'routing' returns nil if the route not found
+        routing(context)
+      end
+
+      # You have to reuse the port
+      # when you run multiple servers at same port
+      server.listen(true)
+    end
   end
 
   # Include Route.cr library
