@@ -18,17 +18,12 @@ module Route
   end
 
   macro spawn_server(t, &block)
-    
-    channel = Channel(Nil).new
-
     {% for i in 0..t %}
       spawn do
         {{yield}}
       end
     {% end %}
-
-      channel.receive
-  end  
+  end
 
   include HttpMethods
   include Logger
