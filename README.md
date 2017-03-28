@@ -85,6 +85,21 @@ class WebServer
 end
 ```
 
+You can run multiple servers concurrently.
+```crystal
+# Running server in 4 threads concurrently
+spawn_server(4) do
+
+  # Using default Crystal server
+  server = HTTP::Server.new(3000) do |context|
+    routing(context)
+  end
+
+  # You have to reuse the port
+  server.listen(true)
+end
+```
+
 See [sample](https://github.com/tbrand/route.cr/blob/master/example/sample.cr) for details.
 
 ## Contributing
