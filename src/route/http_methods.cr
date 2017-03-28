@@ -13,9 +13,11 @@ module Route
       method = context.request.method
       path   = context.request.resource
 
-      return @routes_methods[method][path] if @routes_methods[method].has_key?(path)
+      if @routes_methods.has_key?(method) && @routes_methods[method].has_key?(path)
+        return @routes_methods[method][path]
+      end
 
-      @routes_methods_regex[method.upcase].each_key do |r|
+      @routes_methods_regex[method].each_key do |r|
 
         if params = r.match(path)
 
@@ -31,10 +33,9 @@ module Route
             
             rr.params[key] = params[key]
           end
-
           return rr if ok
         end
-      end
+      end if @routes_methods_regex.has_key?(method)
 
       w "No method found for this route"
 
@@ -50,9 +51,8 @@ module Route
           unless @routes_methods.has_key?("{{http_method.id}}".upcase)
             @routes_methods["{{http_method.id}}".upcase] = {} of String => Route
           end
-          
           @routes_methods["{{http_method.id}}".upcase][path] = Route.new(proc, {} of String => String?)
-          
+
           if path.includes?(":")
 
             route_regex = Route.new(proc, {} of String => String?)
@@ -63,12 +63,11 @@ module Route
                 path = path.gsub(part, "(?<#{part[1..-1]}>.*)")
                 route_regex.params[part[1..-1]] = nil
               end
-              
-              unless @routes_methods_regex.has_key?("{{http_method.id}}".upcase)
-                @routes_methods_regex["{{http_method.id}}".upcase] = {} of Regex => Route
-              end
             end
 
+            unless @routes_methods_regex.has_key?("{{http_method.id}}".upcase)
+              @routes_methods_regex["{{http_method.id}}".upcase] = {} of Regex => Route
+            end
             @routes_methods_regex["{{http_method.id}}".upcase][Regex.new(path)] = route_regex
           end
         end
