@@ -2,7 +2,11 @@ name: route
 version: 0.1.3
 
 authors:
-  - taicsuzu <taicsuzu@yahoo-corp.jp>
+  - Taichiro Suzuki <taichiro0709@gmail.com>
+
+dependencies:
+  radix:
+    github: luislavena/radix
 
 crystal: 0.21.1
 

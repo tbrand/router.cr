@@ -2,29 +2,10 @@ require "./route/*"
 require "yaml"
 
 module Route
-  alias Context = HTTP::Server::Context
-  alias UriParams = Hash(String, String?)
+  # Alias of API
+  alias API = Proc(HTTP::Server::Context, Hash(String, String), HTTP::Server::Context)
 
-  record Route, proc : Proc(Context, UriParams, Context), params : Hash(String, String?)
-
-  def routing(context : Context) : Context?
-    i "#{context.request.method} #{context.request.resource}"
-
-    if route = search_route(context)
-      route.proc.call(context, route.params)
-    end
-
-    nil
-  end
-
-  macro spawn_server(t, &block)
-    {% for i in 0..t %}
-      spawn do
-        {{yield}}
-      end
-    {% end %}
-  end
-
-  include HttpMethods
+  # This includes API and url parametes
+  record RouteContext, api : API, params : Hash(String, String)
   include Logger
 end

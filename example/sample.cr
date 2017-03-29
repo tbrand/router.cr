@@ -1,64 +1,53 @@
 require "../src/route"
 
 class WebServer
-  # --- NOTE ---
-  # All api method should be the format
-  # def some_api(context : Context, uriParams : Uriparams) : Context
-  #   some logics...
-  # end
+  # Add Route functions to WebServer.class
+  include Route
+
+  # To define API, call API.new with context and params(optional) where
+  # context : HTTP::Server::Context
+  # params  : Hash(String, String)
   #
-  # Here is how to define apis
-  # GET /
-  def index(context : Context, uriParams : UriParams) : Context
-    context.response.print "Hello Route.cr!"
+  # HTTP::Server::Context is a default context of the request/response
+  # This includes body, header, response and so on
+  # See https://crystal-lang.org/api/HTTP/Server/Context.html
+  # All API have to return HTTP::Server::Context
+  # For this, Basically, you just put the context on the last line of the API
+  #
+  # params is used when you define parameters in your url such as '/user/:id'
+  # In this case, you can get the 'id' by params["id"]
+
+  # GET "/"
+  @index = API.new do |context|
+    context.response.print "Hello route.cr"
     context
   end
 
-  # GET /user/:id
-  def user(context : Context, uriParams : UriParams) : Context
-    # You can receive uri params from uriParams
-    context.response.print "User(#{uriParams["id"]})"
+  # GET "/user/:id"
+  @user = API.new do |context, params|
+    context.response.print params["id"] # get :id in url from params
     context
   end
 
-  # POST /user
-  def user_register(context : Context, uriParams : UriParams) : Context
-    context.response.print "Register User!"
+  # POST "/user"
+  @register_user = API.new do |context|
     context
   end
 
+  # When you register the routes with pathes, just call `[HTTP_METHOD] "[PATH]", [API]`
+  # In the below example, do it in a constructor
   def initialize
-    # Define your routing
-    # The DSL format is
-    # 'http_method' 'path', 'method_name'
-    # get, post, put, patch, delete and options are supported
-    # For example,
-    get "/", index
-    get "/user/:id", user
-    post "/user", user_register
+    get "/", @index
+    get "/user/:id", @user
+    post "/user", @register_user
   end
 
   def run
-
-    # Running server in 4 threads concurrently
-    spawn_server(4) do
-
-      # Using default Crystal server
-      server = HTTP::Server.new(3000) do |context|
-        # Just call 'routing' method with the server context
-        # 'routing' returns nil if the route not found
-        routing(context)
-      end
-
-      # You have to reuse the port
-      # when you run multiple servers at same port
-      server.listen(true)
-    end
+    server = HTTP::Server.new(3000, routeHandler)
+    server.listen
   end
-
-  # Include Route.cr library
-  include Route
 end
 
+# Initialize WebServer.class
 web_server = WebServer.new
 web_server.run

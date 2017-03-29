@@ -8,6 +8,7 @@ The default web server of the Crystal is quite good but it weak at routing.
 Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
 
 **route.cr** is a minimum but powerful path router for Crystal web server.
+See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest)
 
 ## Installation
 
@@ -32,13 +33,11 @@ class WebServer
 end
 ```
 
-Define your API. All API have to take Context and UriParams arguments and return Context. Context is an alias of HTTP::Server::Context. The explain of UriParams is later. Here is an example.
+To define API, call API.new with context and params(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context.
 ```crystal
-class WebServer
-  def index(context : Context, uriParams : UriParams) : Context
-    # ...Write your logic here...
-    return context
-  end
+@index = API.new do |context|
+  context.response.print "Hello route.cr"
+  context
 end
 ```
 
@@ -46,19 +45,16 @@ Define your route at somewhere. In this example, define it in a contructor.
 ```crystal
 class WebServer
   def initialize
-    get "/", index
+    get "/", @index
   end
 end
 ```
 
-To activate the routes, pass a context from `HTTP::Server` to routing like
+To activate the routes, use `routeHandler`.
 ```crystal
 class WebServer
   def run
-    server = HTTP::Server.new(3000) do |context|
-      routing(context) # Pass context to `routing`
-    end
-
+    server = HTTP::Server.new(3000, routeHandler)
     server.listen
   end
 end
@@ -70,33 +66,18 @@ web_server = WebServer.new
 web_server.run
 ```
 
-UriParams is a Hash(String, String) that is used when you define a path including parameters such as `"/user/:id"`(`:id` is a parameters). Here is an example.
+`params` is a Hash(String, String) that is used when you define a path including parameters such as `"/user/:id"` (`:id` is a parameters). Here is an example.
 ```crystal
 class WebServer
+
+  @user = API.new do |context, params|
+    context.response.print params["id"] # get :id in url from params
+    context
+  end
+
   def initialize
-    get "/user/:id"
+    get "/user/:id", @user
   end
-  
-  def user_id(context : Context, uriParams : UriParams) : Context
-    id = uriParams["id"] # You can refer the :id like this.
-    ... Your logics here
-    return context
-  end
-end
-```
-
-You can run multiple servers concurrently.
-```crystal
-# Running server in 4 threads concurrently
-spawn_server(4) do
-
-  # Using default Crystal server
-  server = HTTP::Server.new(3000) do |context|
-    routing(context)
-  end
-
-  # You have to reuse the port
-  server.listen(true)
 end
 ```
 
