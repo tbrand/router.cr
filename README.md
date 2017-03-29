@@ -35,9 +35,11 @@ end
 
 To define API, call API.new with context and params(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context.
 ```crystal
-@index = API.new do |context|
-  context.response.print "Hello route.cr"
-  context
+class WebServer
+  @index = API.new do |context|
+    context.response.print "Hello route.cr"
+    context
+  end
 end
 ```
 
