@@ -7,7 +7,7 @@
 The default web server of the Crystal is quite good but it weak at routing.
 Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
 
-**route.cr** is a minimum but powerful path router for Crystal web server.
+**route.cr** is a **minimum** but powerful **High Performance** web framework for Crystal web server.
 See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest)
 
 ## Installation
