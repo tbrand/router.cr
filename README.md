@@ -39,7 +39,7 @@ Initialize RouteHandler
 @route_handler = RouteHandler.new
 ```
 
-To define API, call API.new with context and params(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context.
+To define API, call API.new with context and params(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context. In this example, params is omitted. (The usage of params is later)
 ```crystal
 @index = API.new do |context|
   context.response.print "Hello route.cr"
