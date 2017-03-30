@@ -7,7 +7,7 @@
 The default web server of the Crystal is quite good but it weak at routing.
 Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
 
-**route.cr** is a **minimum** but powerful **High Performance** web framework for Crystal web server.
+**route.cr** is a **minimum** but powerful **High Performance** middleware for Crystal web server.
 See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest)
 
 ## Installation
@@ -33,32 +33,32 @@ class WebServer
 end
 ```
 
+In the following example codes, `class WebServer ... end` will be omitted.
+Initialize RouteHandler
+```crystal
+@route_handler = RouteHandler.new
+```
+
 To define API, call API.new with context and params(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context.
 ```crystal
-class WebServer
-  @index = API.new do |context|
-    context.response.print "Hello route.cr"
-    context
-  end
+@index = API.new do |context|
+  context.response.print "Hello route.cr"
+  context
 end
 ```
 
-Define your route at somewhere. In this example, define it in a contructor.
+Define your routes in a `draw` block.
 ```crystal
-class WebServer
-  def initialize
-    get "/", @index
-  end
+draw(@route_handler) do
+  get "/", @index
 end
 ```
 
-To activate the routes, use `routeHandler`.
+To activate the routes
 ```crystal
-class WebServer
-  def run
-    server = HTTP::Server.new(3000, routeHandler)
-    server.listen
-  end
+def run
+  server = HTTP::Server.new(3000, routeHandler)
+  server.listen
 end
 ```
 
@@ -71,6 +71,7 @@ web_server.run
 `params` is a Hash(String, String) that is used when you define a path including parameters such as `"/user/:id"` (`:id` is a parameters). Here is an example.
 ```crystal
 class WebServer
+  @route_handler = RouteHandler.new
 
   @user = API.new do |context, params|
     context.response.print params["id"] # get :id in url from params
@@ -78,12 +79,14 @@ class WebServer
   end
 
   def initialize
-    get "/user/:id", @user
+    draw(@route_handler) do
+      get "/user/:id", @user
+    end
   end
 end
 ```
 
-See [sample](https://github.com/tbrand/route.cr/blob/master/example/sample.cr) for details.
+See [sample](https://github.com/tbrand/route.cr/blob/master/sample) for details.
 
 ## Contributing
 

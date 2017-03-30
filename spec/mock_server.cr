@@ -4,6 +4,7 @@ class MockServer
   include Route
 
   @server : HTTP::Server?
+  @route_handler = RouteHandler.new
 
   @index = API.new do |context|
     context.response.print "index"
@@ -31,17 +32,18 @@ class MockServer
   end
 
   def initialize(@port : Int32)
-    # Disable all logs
-    route_log_level(Production)
-    get "/", @index
-    get "/params/:id", @param
-    get "/params/:id/test/:test_id", @test_param
-    put "/put_test", @put_test
-    post "/post_test", @post_test
+
+    draw(@route_handler) do
+      get  "/",                         @index
+      get  "/params/:id",               @param
+      get  "/params/:id/test/:test_id", @test_param
+      put  "/put_test",                 @put_test
+      post "/post_test",                @post_test
+    end
   end
 
   def run
-    @server = HTTP::Server.new(@port, routeHandler).listen
+    @server = HTTP::Server.new(@port, @route_handler).listen
   end
 
   def close
