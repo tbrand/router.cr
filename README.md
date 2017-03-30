@@ -57,7 +57,7 @@ end
 To activate the routes
 ```crystal
 def run
-  server = HTTP::Server.new(3000, routeHandler)
+  server = HTTP::Server.new(3000, @route_handler)
   server.listen
 end
 ```
