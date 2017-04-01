@@ -32,13 +32,12 @@ class MockServer
   end
 
   def initialize(@port : Int32)
-
     draw(@route_handler) do
-      get  "/",                         @index
-      get  "/params/:id",               @param
-      get  "/params/:id/test/:test_id", @test_param
-      put  "/put_test",                 @put_test
-      post "/post_test",                @post_test
+      get "/", @index
+      get "/params/:id", @param
+      get "/params/:id/test/:test_id", @test_param
+      put "/put_test", @put_test
+      post "/post_test", @post_test
     end
   end
 

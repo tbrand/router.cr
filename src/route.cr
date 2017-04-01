@@ -18,7 +18,6 @@ module Route
 
   # Supported http methods
   HTTP_METHODS = %w(get post put patch delete options)
-  
   {% for http_method in HTTP_METHODS %}
     def {{http_method.id}}(path : String, api : API)
       abort "Please call `{{http_method.id}}` in `draw`" if @tmp_route_handler.nil?

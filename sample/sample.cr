@@ -39,12 +39,11 @@ class WebServer
   # When you register the routes with pathes, just call `[HTTP_METHOD] "[PATH]", [API]`
   # In the below example, do it in a constructor
   def initialize
-
     # Draw routes like this
     draw(@route_handler) do
-      get  "/",         @index
-      get  "/user/:id", @user
-      post "/user",     @register_user
+      get "/", @index
+      get "/user/:id", @user
+      post "/user", @register_user
     end
   end
 
