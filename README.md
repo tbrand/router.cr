@@ -22,6 +22,8 @@ dependencies:
 
 ## Usage
 
+### Basic usage
+
 ```crystal
 require "route"
 ```
@@ -68,6 +70,8 @@ web_server = WebServer.new
 web_server.run
 ```
 
+### Path parameters
+
 `params` is a Hash(String, String) that is used when you define a path including parameters such as `"/user/:id"` (`:id` is a parameters). Here is an example.
 ```crystal
 class WebServer
@@ -84,6 +88,17 @@ class WebServer
     end
   end
 end
+```
+
+### Rendering views(.ecr)
+
+route.cr also support **simple rendering function** to render `.ecr` file with parameters. First, define your view like
+```crystal
+def_view :view_sample, "sample/public/hello.ecr", name: String, num: Int32
+```
+`:view_sample` is an identifier of the view. "sample/public/hello.ecr" is a relative path to the file. `name` and `num` are parameters used in "sample/public/hello.ecr". Note that these parameters have to be class variables in the file. See [here](https://github.com/tbrand/route.cr/blob/master/sample/public/hello.ecr). When you render them, just call `render_view` like
+```crystal
+context.response.print render_view(:view_sample, "tbrand", 10)
 ```
 
 See [sample](https://github.com/tbrand/route.cr/blob/master/sample) for details.

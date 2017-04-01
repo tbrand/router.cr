@@ -29,7 +29,7 @@ module Route
         raise RouteNotFoundException.new(context.request.method, context.request.resource)
       end
 
-      # call_next(context) if @next
+      call_next(context) if @next
     end
 
     def add_route(key : String, api : API)

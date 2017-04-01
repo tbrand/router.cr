@@ -40,5 +40,10 @@ describe Route do
     result.not_nil!.body.should eq("ok")
   end
 
+  it "#view" do
+    result = curl("GET", "/view")
+    result.not_nil!.body.should eq("<p>OK</p>\n")
+  end
+
   mock_server.close
 end

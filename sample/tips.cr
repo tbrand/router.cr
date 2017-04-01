@@ -1,7 +1,7 @@
 require "../src/route"
 
-# This sample shows how to mix with other default middlewares.
-# We use ErrorHandler, LogHandler and StaticFileHandler in this sample (Of course RouteHandler as well).
+# This sample shows how to mix with other default HTTP::Handlers.
+# We use ErrorHandler, LogHandler and StaticFileHandler in this sample.
 #
 # Here is a list of default HTTP::Handler(s)
 # - HTTP::CompressHandler           https://crystal-lang.org/api/HTTP/CompressHandler.html
@@ -37,7 +37,7 @@ class WebServer
     # ErrorHandler should be the next of the LogHandler to handle all errors.
     # StatifFileHandler should be the next of the ErrorHandler since it should serve static files
     # before the access coming to RouteHandler.
-    # StaticFileHandler will pass the access to the RouteHandler if the file does not exist.
+    # StaticFileHandler will pass the access to the RouteHandler if the file or directory does not exist.
     # So RouteHandler should be last.
     # The array of the handlers should be like this.
     handlers = [

@@ -31,20 +31,41 @@ class WebServer
     context
   end
 
+  # You can use powerful rendering function
+  # First, define your view with .ecr file and parameters where
+  # - ":view_sample"            : Identifier of the view
+  # - "sample/public/hello.ecr" : Relative path to .ecr file
+  # - "name" and "num"          : Parameters used in "sample/public/hello.ecr"
+  # (Note that the parameters have to be class variables in .ecr file)
+  def_view :view_sample, "sample/public/hello.ecr", name: String, num: Int32
+
+  # GET "/hello"
+  @hello = API.new do |context|
+    # You can render them by calling `render_view`
+    context.response.print render_view(:view_sample, "tbrand", 10)
+    context
+  end
+
   # POST "/user"
   @register_user = API.new do |context|
     context
   end
 
-  # When you register the routes with pathes, just call `[HTTP_METHOD] "[PATH]", [API]`
-  # In the below example, do it in a constructor
   def initialize
-    # Draw routes like this
+
+    # Define routes in `draw` block
     draw(@route_handler) do
-      get "/", @index
-      get "/user/:id", @user
-      post "/user", @register_user
+      get  "/",         @index
+      get  "/user/:id", @user
+      get  "/hello",    @hello
+      post "/user",     @register_user
     end
+
+    # Try
+    # curl localhost:3000
+    # curl localhost:3000/user/3
+    # curl localhost:3000/hello
+    # curl localhost:3000/user -X POST
   end
 
   def run

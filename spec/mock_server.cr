@@ -31,11 +31,19 @@ class MockServer
     context
   end
 
+  def_view :view, "spec/view/test.ecr", text: String
+
+  @view = API.new do |context|
+    context.response.print render_view(:view, "OK")
+    context
+  end
+
   def initialize(@port : Int32)
     draw(@route_handler) do
       get "/", @index
       get "/params/:id", @param
       get "/params/:id/test/:test_id", @test_param
+      get "/view", @view
       put "/put_test", @put_test
       post "/post_test", @post_test
     end
