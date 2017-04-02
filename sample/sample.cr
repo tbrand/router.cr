@@ -52,13 +52,12 @@ class WebServer
   end
 
   def initialize
-
     # Define routes in `draw` block
     draw(@route_handler) do
-      get  "/",         @index
-      get  "/user/:id", @user
-      get  "/hello",    @hello
-      post "/user",     @register_user
+      get "/", @index
+      get "/user/:id", @user
+      get "/hello", @hello
+      post "/user", @register_user
     end
 
     # Try

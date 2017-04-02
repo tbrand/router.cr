@@ -92,9 +92,14 @@ end
 
 ### Rendering views(.ecr)
 
-route.cr also support **simple rendering function** to render `.ecr` file with parameters. First, define your view like
+route.cr also support **simple rendering function** to render `.ecr` file with parameters.
+First, define your view like
 ```crystal
 def_view :view_sample, "sample/public/hello.ecr", name: String, num: Int32
+```
+where "sample/public/hello.ecr" is
+```
+My name is <%= @name %>. The number is <%= @num %>.
 ```
 `:view_sample` is an identifier of the view. "sample/public/hello.ecr" is a relative path to the file. `name` and `num` are parameters used in "sample/public/hello.ecr". Note that these parameters have to be class variables in the file. See [here](https://github.com/tbrand/route.cr/blob/master/sample/public/hello.ecr). When you render them, just call `render_view` like
 ```crystal

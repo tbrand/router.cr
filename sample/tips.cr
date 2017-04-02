@@ -15,7 +15,7 @@ class WebServer
   include Route
 
   # HTTP::Handler(s)
-  @log_handler = HTTP::LogHandler.new
+  @log_handler = HTTP::LogHandler.new(STDOUT)
   @error_handler = HTTP::ErrorHandler.new
   @static_file_handler = HTTP::StaticFileHandler.new(File.expand_path("../public", __FILE__))
   @route_handler = RouteHandler.new

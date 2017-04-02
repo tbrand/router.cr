@@ -17,7 +17,7 @@ module Route
   end
 
   macro def_view(view, file, props)
-    record View{{view.id}}{% for prop, typ in props %},{{prop.id}} : {{typ.id}}{% end %} do
+    record {{view.id.camelcase}}{% for prop, typ in props %},{{prop.id}} : {{typ.id}}{% end %} do
       ECR.def_to_s "{{file.id}}"
     end
   end
@@ -27,7 +27,7 @@ module Route
   end
 
   macro render_view(view, *vals)
-    View{{view.id}}.new({% for val, i in vals %}{{val}}{% if i != vals.size - 1 %},{% end %}{% end %}).to_s
+    {{view.id.camelcase}}.new({% for val, i in vals %}{{val}}{% if i != vals.size - 1 %},{% end %}{% end %}).to_s
   end
 
   # Supported http methods
