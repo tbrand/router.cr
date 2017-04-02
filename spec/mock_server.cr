@@ -50,7 +50,7 @@ class MockServer
   end
 
   def run
-    @server = HTTP::Server.new(@port, @route_handler).listen
+    @server = HTTP::Server.new(@port, [ProfileHandler.new, @route_handler]).listen
   end
 
   def close

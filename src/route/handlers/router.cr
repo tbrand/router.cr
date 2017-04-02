@@ -1,5 +1,4 @@
 require "radix"
-require "http/server"
 
 module Route
   class RouteHandler

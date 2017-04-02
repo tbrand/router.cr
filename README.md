@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/tbrand/route.cr.svg?branch=master)](https://travis-ci.org/tbrand/route.cr)
 [![Dependency Status](https://shards.rocks/badge/github/tbrand/route.cr/status.svg)](https://shards.rocks/github/tbrand/route.cr)
 [![devDependency Status](https://shards.rocks/badge/github/tbrand/route.cr/dev_status.svg)](https://shards.rocks/github/tbrand/route.cr)
+[![GitHub release](https://img.shields.io/github/release/tbrand/route.cr.svg)](https://github.com/tbrand/route.cr/releases)
 
 The default web server of the Crystal is quite good but it weak at routing.
 Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
@@ -35,7 +36,7 @@ class WebServer
 end
 ```
 
-In the following example codes, `class WebServer ... end` will be omitted.
+In the following sample codes, `class WebServer ... end` will be omitted.
 Initialize RouteHandler
 ```crystal
 @route_handler = RouteHandler.new
@@ -70,6 +71,8 @@ web_server = WebServer.new
 web_server.run
 ```
 
+See [sample](https://github.com/tbrand/route.cr/blob/master/sample/sample.cr) for details.
+
 ### Path parameters
 
 `params` is a Hash(String, String) that is used when you define a path including parameters such as `"/user/:id"` (`:id` is a parameters). Here is an example.
@@ -90,6 +93,8 @@ class WebServer
 end
 ```
 
+See [sample](https://github.com/tbrand/route.cr/blob/master/sample/sample.cr) for details.
+
 ### Rendering views(.ecr)
 
 route.cr also support **simple rendering function** to render `.ecr` file with parameters.
@@ -106,7 +111,23 @@ My name is <%= @name %>. The number is <%= @num %>.
 context.response.print render_view(:view_sample, "tbrand", 10)
 ```
 
-See [sample](https://github.com/tbrand/route.cr/blob/master/sample) for details.
+See [sample](https://github.com/tbrand/route.cr/blob/master/sample/sample.cr) for details.
+
+### Get profiles
+
+route.cr also serves **ProfileHandler**. By using this, you can easily get the access data like
+```
+[ GET /one ]        Access: 10          Total: 704.0µs      Ave: 70.4µs
+[ GET /two ]        Access: 9           Total: 309.0µs      Ave: 34.3µs
+[ GET /three ]      Access: 9           Total: 262.0µs      Ave: 29.1µs
+```
+For this, just set `ProfileHandler` to your server like
+```
+server = HTTP::Server.new(3000, [ProfileHandler.new, @route_handler])
+```
+After running your server, try accessing "/profile".
+
+See [sample](https://github.com/tbrand/route.cr/blob/master/sample/profile.cr) for details.
 
 ## Contributing
 
