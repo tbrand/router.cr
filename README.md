@@ -9,7 +9,7 @@ The default web server of the Crystal is quite good but it weak at routing.
 Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
 
 **route.cr** is a **minimum** but powerful **High Performance** middleware for Crystal web server.
-See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest)
+See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest) **route.cr** includes convenient rendering tool and profiler.
 
 ## Installation
 
@@ -29,7 +29,7 @@ dependencies:
 require "route"
 ```
 
-Include `Route` to utilize this.
+Include `Route` to utilize **route.cr**.
 ```crystal
 class WebServer
   include Route
@@ -37,22 +37,22 @@ end
 ```
 
 In the following sample codes, `class WebServer ... end` will be omitted.
-Initialize RouteHandler
+To initialize RouteHandler
 ```crystal
 @route_handler = RouteHandler.new
 ```
 
-To define API, call API.new with context and params(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context. In this example, params is omitted. (The usage of params is later)
+To define API, call API.new with `context` and `params`(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context. In this example, params is omitted. (The usage of params is later)
 ```crystal
 @index = API.new do |context|
   context.response.print "Hello route.cr"
-  context
+  context # returning context
 end
 ```
 
 Define your routes in a `draw` block.
 ```crystal
-draw(@route_handler) do
+draw(@route_handler) do # Draw routes
   get "/", @index
 end
 ```
@@ -60,7 +60,7 @@ end
 To activate the routes
 ```crystal
 def run
-  server = HTTP::Server.new(3000, @route_handler)
+  server = HTTP::Server.new(3000, @route_handler) # Set RouteHandler to your server
   server.listen
 end
 ```
@@ -75,7 +75,7 @@ See [sample](https://github.com/tbrand/route.cr/blob/master/sample/sample.cr) fo
 
 ### Path parameters
 
-`params` is a Hash(String, String) that is used when you define a path including parameters such as `"/user/:id"` (`:id` is a parameters). Here is an example.
+`params` is a Hash(String, String) that is used when you define a path parameters such as `/user/:id` (`:id` is a parameters). Here is an example.
 ```crystal
 class WebServer
   @route_handler = RouteHandler.new
