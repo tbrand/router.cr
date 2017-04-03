@@ -11,7 +11,7 @@ The default web server of the Crystal is quite good but it weak at routing.
 Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
 
 **route.cr** is a **minimum** but powerful **High Performance** middleware for Crystal web server.
-See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest) **route.cr** includes convenient rendering tool and profiler.
+See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest). **route.cr** includes convenient rendering tool and profiler.
 
 ## Installation
 
