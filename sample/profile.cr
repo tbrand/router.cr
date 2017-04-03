@@ -1,4 +1,5 @@
 require "../src/route"
+
 # route.cr serves ProfileHandler
 # You can easily get a profile by accessing "/profile"
 # ```
@@ -21,13 +22,11 @@ class ProfiledServer
         context.response.print "one"
         context
       }
-     
       get "/two", API.new { |context|
         context.response.content_type = "text/plain"
         context.response.print "two"
         context
       }
-     
       get "/three", API.new { |context|
         context.response.content_type = "text/plain"
         context.response.print "three"
