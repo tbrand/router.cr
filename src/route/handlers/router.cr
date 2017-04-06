@@ -56,7 +56,7 @@ module Route
   {% for http_method in HTTP_METHODS %}
     def {{http_method.id}}(path : String, api : API)
       abort "Please call `{{http_method.id}}` in `draw`" if @tmp_route_handler.nil?
-      @tmp_route_handler.not_nil!.add_route("{{http_method.id}}".upcase + path, api)
+      @tmp_route_handler.not_nil!.add_route("{{http_method.id.upcase}}" + path, api)
     end
   {% end %}
 end
