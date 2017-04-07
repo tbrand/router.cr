@@ -105,9 +105,9 @@ class WebServer
   @route_handler = RouteHandler.new
 
   @user = API.new do |context, params|
-	response_body = "user: "
-	# Get a query param like /user?id=3
-	response_body += params["id"] if params.has_key?("id")
+    response_body = "user: "
+    # Get a query param like /user?id=3
+    response_body += params["id"] if params.has_key?("id")
     context.response.print response_body
     context
   end
