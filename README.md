@@ -7,11 +7,15 @@
 
 ---
 
-The default web server of the Crystal is quite good but it weak at routing.
-Kemal is an awesome defacto standard web framework for Crystal, but it's too fat for some purpose.
+The default web server of the Crystal is quite good :smile: but it weak at routing :cry:.
+Kemal is an awesome defacto standard web framework for Crystal :smile:, but it's too fat for some purpose :cry:.
 
-**route.cr** is a **minimum** but powerful **High Performance** middleware for Crystal web server.
-See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest). **route.cr** includes convenient rendering tool and profiler.
+**route.cr** is a **minimum** but **High Performance** middleware for Crystal web server.
+See the amazing performance of **route.cr** [here](https://github.com/tbrand/which_is_the_fastest).:rocket:
+
+**route.cr** also contains
+ - Convenient rendering tool
+ - Access profiler
 
 ## Installation
 
@@ -95,11 +99,33 @@ class WebServer
 end
 ```
 
+`params` also includes query params such as `/user?id=3`. Here is an example.
+```crystal
+class WebServer
+  @route_handler = RouteHandler.new
+
+  @user = API.new do |context, params|
+	response_body = "user: "
+	# Get a query param like /user?id=3
+	response_body += params["id"] if params.has_key?("id")
+    context.response.print response_body
+    context
+  end
+
+  def initialize
+    draw(@route_handler) do
+      get "/user", @user
+    end
+  end
+end
+```
+
 See [sample](https://github.com/tbrand/route.cr/blob/master/sample/sample.cr) for details.
 
 ### Rendering views(.ecr)
 
 route.cr also support **simple rendering function** to render `.ecr` file with parameters.
+
 First, define your view like
 ```crystal
 def_view :view_sample, "sample/public/hello.ecr", name: String, num: Int32
