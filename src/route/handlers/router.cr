@@ -20,6 +20,13 @@ module Route
 
       route = @tree.find(method.upcase + path)
 
+      # merge query params in to route params for 'convenience'
+      # XXX can't merge these with + since Radix params are String=>String 
+      #     and route params are a distinct thing.
+      context.request.query_params.each do |k, v|
+        route.params[k] = v
+      end
+
       if route.found?
         return RouteContext.new(route.payload, route.params)
       end
