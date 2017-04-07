@@ -12,7 +12,9 @@ class MockServer
   end
 
   @param = API.new do |context, params|
-    context.response.print "params:#{params["id"]}"
+    result_body =  "params:#{params["id"]}"
+    result_body += ", query_params:#{params["q"]}" if params.has_key?("q")
+    context.response.print result_body
     context
   end
 
