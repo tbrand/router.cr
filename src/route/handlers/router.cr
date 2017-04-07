@@ -18,9 +18,9 @@ module Route
       method = context.request.method
       path = case md = %r(^[^?]+).match(context.request.resource)
              when Regex::MatchData
-                md[0]
+               md[0]
              else
-                context.request.resource
+               context.request.resource
              end
 
       route = @tree.find(method.upcase + path)
