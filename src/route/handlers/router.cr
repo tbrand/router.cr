@@ -16,7 +16,12 @@ module Route
 
     def search_route(context : HTTP::Server::Context) : RouteContext?
       method = context.request.method
-      path = context.request.resource
+      path = case md = %r(^[^?]+).match(context.request.resource)
+             when Regex::MatchData
+               md[0]
+             else
+               context.request.resource
+             end
 
       route = @tree.find(method.upcase + path)
 
