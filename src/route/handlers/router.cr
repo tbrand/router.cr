@@ -16,14 +16,7 @@ module Route
 
     def search_route(context : HTTP::Server::Context) : RouteContext?
       method = context.request.method
-      path = case md = %r(^[^?]+).match(context.request.resource)
-             when Regex::MatchData
-               md[0]
-             else
-               context.request.resource
-             end
-
-      route = @tree.find(method.upcase + path)
+      route = @tree.find(method.upcase + context.request.path)
 
       # Merge query params into path params
       context.request.query_params.each do |k, v|
