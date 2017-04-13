@@ -19,17 +19,15 @@ module Route
     @data = {} of String => Access
 
     def format_data : String
-      res = ""
-
-      @data.each do |key, access|
-        res += "[ #{access.method} #{access.path} ] ".ljust(20, ' ')
-        res += "Access: #{access.n} ".ljust(20, ' ')
-        res += "Total: #{format_time(access.time)} ".ljust(20, ' ')
-        res += "Ave: #{format_time(access.time/access.n)} ".ljust(20, ' ')
-        res += "\n"
+      String.build do |res|
+        @data.each do |key, access|
+          res << "[ #{access.method} #{access.path} ] ".ljust(20, ' ')
+          res << "Access: #{access.n} ".ljust(20, ' ')
+          res << "Total: #{format_time(access.time)} ".ljust(20, ' ')
+          res << "Ave: #{format_time(access.time/access.n)} ".ljust(20, ' ')
+          res << "\n"
+        end
       end
-
-      res
     end
 
     def call(context)
