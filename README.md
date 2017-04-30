@@ -7,7 +7,7 @@
 
 ---
 
-The default web server of the Crystal is quite good :smile: but it weak at routing :cry:.
+The default web server of the Crystal is quite good :smile: but it weak at routing :cry:.  
 Kemal is an awesome defacto standard web framework for Crystal :smile:, but it's too fat for some purpose :cry:.
 
 **route.cr** is a **minimum** but **High Performance** middleware for Crystal web server.
