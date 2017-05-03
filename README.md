@@ -23,7 +23,7 @@ Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  router.cr:
+  router:
     github: tbrand/router.cr
 ```
 
