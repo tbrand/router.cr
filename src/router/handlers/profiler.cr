@@ -1,4 +1,4 @@
-module Route
+module Router
   class ProfileHandler
     include HTTP::Handler
 

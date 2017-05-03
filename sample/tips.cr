@@ -1,6 +1,6 @@
-require "../src/route"
+require "../src/router"
 
-# route.cr serves RouteHandler and ProfileHandler.
+# router.cr serves RouteHandler and ProfileHandler.
 # This sample shows how to mix them with other default HTTP::Handlers.
 # We use ErrorHandler, LogHandler and StaticFileHandler in this sample.
 #
@@ -13,7 +13,7 @@ require "../src/route"
 # - HTTP::WebSocketHandler          https://crystal-lang.org/api/HTTP/WebSocketHandler.html
 
 class WebServer
-  include Route
+  include Router
 
   # HTTP::Handler(s)
   @log_handler = HTTP::LogHandler.new(STDOUT)

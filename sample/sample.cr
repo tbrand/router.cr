@@ -1,8 +1,8 @@
-require "../src/route"
+require "../src/router"
 
 class WebServer
-  # Add Route functions to WebServer.class
-  include Route
+  # Add Router functions to WebServer.class
+  include Router
 
   # Initialize RouteHandler
   @route_handler = RouteHandler.new
@@ -19,7 +19,7 @@ class WebServer
 
   # GET "/"
   @index = API.new do |context|
-    context.response.print "Hello route.cr"
+    context.response.print "Hello router.cr"
     context
   end
 

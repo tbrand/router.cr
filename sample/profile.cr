@@ -1,6 +1,6 @@
-require "../src/route"
+require "../src/router"
 
-# route.cr serves ProfileHandler
+# router.cr serves ProfileHandler
 # You can easily get a profile by accessing "/profile"
 # ```
 # [ GET /one ]        Access: 10          Total: 704.0µs      Ave: 70.4µs
@@ -8,7 +8,7 @@ require "../src/route"
 # [ GET /three ]      Access: 9           Total: 262.0µs      Ave: 29.1µs
 # ```
 class ProfiledServer
-  include Route
+  include Router
 
   def run
     # Initialize profile handler

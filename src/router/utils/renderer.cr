@@ -1,4 +1,4 @@
-module Route
+module Router
   macro def_view(view, file, props)
     record {{view.id.camelcase}}{% for prop, typ in props %},{{prop.id}} : {{typ.id}}{% end %} do
       ECR.def_to_s "{{file.id}}"
