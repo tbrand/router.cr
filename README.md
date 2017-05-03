@@ -30,7 +30,7 @@ dependencies:
 ### Basic usage
 
 ```crystal
-require "route"
+require "router"
 ```
 
 Include `Router` to utilize **router.cr**.
