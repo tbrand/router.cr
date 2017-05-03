@@ -1,4 +1,4 @@
-<img src="https://cloud.githubusercontent.com/assets/3483230/24613845/84909cd8-18c4-11e7-8c04-d3f0d30bc9c4.png" width="200" />
+<img src="https://cloud.githubusercontent.com/assets/3483230/25668495/c3c28574-3061-11e7-9dbd-969d95eb4bf8.png" width="200" />
 
 [![Build Status](https://travis-ci.org/tbrand/router.cr.svg?branch=master)](https://travis-ci.org/tbrand/router.cr)
 [![GitHub release](https://img.shields.io/github/release/tbrand/router.cr.svg)](https://github.com/tbrand/router.cr/releases)
