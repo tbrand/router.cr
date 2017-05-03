@@ -1,6 +1,6 @@
 require "radix"
 
-module Route
+module Router
   # Alias of API
   alias API = Proc(HTTP::Server::Context, Hash(String, String), HTTP::Server::Context)
 

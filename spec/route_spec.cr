@@ -2,7 +2,7 @@ require "./spec_helper"
 require "./mock_server"
 require "./curl"
 
-describe Route do
+describe Router do
   mock_server = MockServer.new(3000)
 
   spawn do

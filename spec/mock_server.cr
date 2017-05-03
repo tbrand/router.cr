@@ -1,7 +1,7 @@
-require "../src/route"
+require "../src/router"
 
 class MockServer
-  include Route
+  include Router
 
   @server : HTTP::Server?
   @route_handler = RouteHandler.new
