@@ -33,9 +33,9 @@ module Router
     def call(context)
       if route_context = search_route(context)
         route_context.api.call(context, route_context.params)
+      else
+        call_next(context)
       end
-
-      call_next(context) if @next
     end
 
     def add_route(key : String, api : API)

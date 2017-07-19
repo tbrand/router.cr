@@ -52,5 +52,10 @@ describe Router do
     result.not_nil!.status_code.should eq(200)
   end
 
+  it "#unknown_path" do
+    result = curl("GET", "/unknown_path")
+    result.not_nil!.status_code.should eq(404)
+  end
+
   mock_server.close
 end
