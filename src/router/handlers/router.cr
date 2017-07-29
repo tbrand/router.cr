@@ -1,17 +1,17 @@
 require "radix"
 
 module Router
-  # Alias of API
-  alias API = Proc(HTTP::Server::Context, Hash(String, String), HTTP::Server::Context)
+  # Alias of Action
+  alias Action = Proc(HTTP::Server::Context, Hash(String, String), HTTP::Server::Context)
 
-  # This includes API and url parametes
-  record RouteContext, api : API, params : Hash(String, String)
+  # This includes Action and url parametes
+  record RouteContext, api : Action, params : Hash(String, String)
 
   class RouteHandler
     include HTTP::Handler
 
     def initialize
-      @tree = Radix::Tree(API).new
+      @tree = Radix::Tree(Action).new
     end
 
     def search_route(context : HTTP::Server::Context) : RouteContext?
@@ -38,7 +38,7 @@ module Router
       end
     end
 
-    def add_route(key : String, api : API)
+    def add_route(key : String, api : Action)
       @tree.add(key, api)
     end
   end
@@ -55,7 +55,7 @@ module Router
   # Supported http methods
   HTTP_METHODS = %w(get post put patch delete options)
   {% for http_method in HTTP_METHODS %}
-    def {{http_method.id}}(path : String, api : API)
+    def {{http_method.id}}(path : String, api : Action)
       abort "Please call `{{http_method.id}}` in `draw`" if @tmp_route_handler.nil?
       @tmp_route_handler.not_nil!.add_route("{{http_method.id.upcase}}" + path, api)
     end

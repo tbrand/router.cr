@@ -7,18 +7,18 @@ class WebServer
   # Initialize RouteHandler
   @route_handler = RouteHandler.new
 
-  # To define API, call API.new with context and params(optional) where
+  # To define Action, call Action.new with context and params(optional) where
   # context : HTTP::Server::Context
   # params  : Hash(String, String)
   #
   # HTTP::Server::Context is a default context of the http request/response
   # This includes body, header, response and so on
   # See https://crystal-lang.org/api/HTTP/Server/Context.html
-  # All API have to return HTTP::Server::Context
-  # For this, Basically, you just put the context on the last line of each API
+  # All Action have to return HTTP::Server::Context
+  # For this, Basically, you just put the context on the last line of each Action
 
   # GET "/"
-  @index = API.new do |context|
+  @index = Action.new do |context|
     context.response.print "Hello router.cr"
     context
   end
@@ -26,7 +26,7 @@ class WebServer
   # params is used when you define parameters in your url such as '/user/:id' (path parameters)
   # In this case, you can get the 'id' by params["id"]
   # GET "/user/:id"
-  @user = API.new do |context, params|
+  @user = Action.new do |context, params|
     context.response.print params["id"] # get :id in url from params
     context
   end
@@ -40,14 +40,14 @@ class WebServer
   def_view :view_sample, "sample/public/hello.ecr", name: String, num: Int32
 
   # GET "/hello"
-  @hello = API.new do |context|
+  @hello = Action.new do |context|
     # You can render them by calling `render_view`
     context.response.print render_view(:view_sample, "tbrand", 10)
     context
   end
 
   # POST "/user"
-  @register_user = API.new do |context|
+  @register_user = Action.new do |context|
     context
   end
 
