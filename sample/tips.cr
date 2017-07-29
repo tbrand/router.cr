@@ -22,7 +22,7 @@ class WebServer
   @route_handler = RouteHandler.new
   @profile_handler = ProfileHandler.new
 
-  @index = API.new do |context|
+  @index = Action.new do |context|
     context.response.print "OK"
     context
   end

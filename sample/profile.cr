@@ -17,17 +17,17 @@ class ProfiledServer
     route_handler = RouteHandler.new
 
     draw(route_handler) do
-      get "/one", API.new { |context|
+      get "/one", Action.new { |context|
         context.response.content_type = "text/plain"
         context.response.print "one"
         context
       }
-      get "/two", API.new { |context|
+      get "/two", Action.new { |context|
         context.response.content_type = "text/plain"
         context.response.print "two"
         context
       }
-      get "/three", API.new { |context|
+      get "/three", Action.new { |context|
         context.response.content_type = "text/plain"
         context.response.print "three"
         context

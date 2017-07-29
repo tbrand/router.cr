@@ -46,9 +46,9 @@ To initialize RouteHandler
 @route_handler = RouteHandler.new
 ```
 
-To define API, call API.new with `context` and `params`(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context. In this example, params is omitted. (The usage of params is later)
+To define Action, call Action.new with `context` and `params`(optional) where context is HTTP::Server::Context and params is Hash(String, String). All Actions have to return the context. In this example, params is omitted. (The usage of params is later)
 ```crystal
-@index = API.new do |context|
+@index = Action.new do |context|
   context.response.print "Hello router.cr"
   context # returning context
 end
@@ -84,7 +84,7 @@ See [sample](https://github.com/tbrand/router.cr/blob/master/sample/sample.cr) f
 class WebServer
   @route_handler = RouteHandler.new
 
-  @user = API.new do |context, params|
+  @user = Action.new do |context, params|
     context.response.print params["id"] # get :id in url from params
     context
   end
@@ -102,7 +102,7 @@ end
 class WebServer
   @route_handler = RouteHandler.new
 
-  @user = API.new do |context, params|
+  @user = Action.new do |context, params|
     response_body = "user: "
     # Get a query param like /user?id=3
     response_body += params["id"] if params.has_key?("id")

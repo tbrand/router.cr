@@ -6,36 +6,36 @@ class MockServer
   @server : HTTP::Server?
   @route_handler = RouteHandler.new
 
-  @index = API.new do |context|
+  @index = Action.new do |context|
     context.response.print "index"
     context
   end
 
-  @param = API.new do |context, params|
+  @param = Action.new do |context, params|
     result_body = "params:#{params["id"]}"
     result_body += ", query_params:#{params["q"]}" if params.has_key?("q")
     context.response.print result_body
     context
   end
 
-  @test_param = API.new do |context, params|
+  @test_param = Action.new do |context, params|
     context.response.print "params:#{params["id"]}, #{params["test_id"]}"
     context
   end
 
-  @post_test = API.new do |context, params|
+  @post_test = Action.new do |context, params|
     context.response.print "ok"
     context
   end
 
-  @put_test = API.new do |context, params|
+  @put_test = Action.new do |context, params|
     context.response.print "ok"
     context
   end
 
   def_view :view, "spec/view/test.ecr", text: String
 
-  @view = API.new do |context|
+  @view = Action.new do |context|
     context.response.print render_view(:view, "OK")
     context
   end
