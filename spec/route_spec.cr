@@ -42,16 +42,6 @@ describe Router do
     result.not_nil!.body.should eq("ok")
   end
 
-  it "#view" do
-    result = curl("GET", "/view")
-    result.not_nil!.body.should eq("<p>OK</p>\n")
-  end
-
-  it "#profile" do
-    result = curl("GET", "/profile")
-    result.not_nil!.status_code.should eq(200)
-  end
-
   it "#unknown_path" do
     result = curl("GET", "/unknown_path")
     result.not_nil!.status_code.should eq(404)
