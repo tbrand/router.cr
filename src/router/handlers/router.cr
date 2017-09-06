@@ -30,7 +30,7 @@ module Router
       nil
     end
 
-    def call(context)
+    def call(context : HTTP::Server::Context)
       if route_context = search_route(context)
         route_context.api.call(context, route_context.params)
       else
@@ -46,7 +46,7 @@ module Router
   # RouteHandler to be drawn
   @tmp_route_handler : RouteHandler?
 
-  def draw(route_handler, &block)
+  def draw(route_handler : RouteHandler?, &block)
     @tmp_route_handler = route_handler
     yield
     @tmp_route_handler = nil
@@ -54,6 +54,7 @@ module Router
 
   # Supported http methods
   HTTP_METHODS = %w(get post put patch delete options)
+
   {% for http_method in HTTP_METHODS %}
     def {{http_method.id}}(path : String, api : API)
       abort "Please call `{{http_method.id}}` in `draw`" if @tmp_route_handler.nil?
