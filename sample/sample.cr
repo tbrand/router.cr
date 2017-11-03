@@ -1,64 +1,54 @@
 require "../src/router"
 
 class WebServer
-  # Add Router functions to WebServer.class
+  # Add Router functions to WebServer
   include Router
 
-  # Initialize RouteHandler
-  @route_handler = RouteHandler.new
-
-  # To define API, call API.new with context and params(optional) where
-  # context : HTTP::Server::Context
-  # params  : Hash(String, String)
-  #
-  # HTTP::Server::Context is a default context of the http request/response
-  # This includes body, header, response and so on
-  # See https://crystal-lang.org/api/HTTP/Server/Context.html
-  # All API have to return HTTP::Server::Context
-  # For this, Basically, you just put the context on the last line of each API
-
-  # GET "/"
-  @index = API.new do |context|
-    context.response.print "Hello router.cr"
-    context
-  end
-
-  # params is used when you define parameters in your url such as '/user/:id' (path parameters)
-  # In this case, you can get the 'id' by params["id"]
-  # GET "/user/:id"
-  @user = API.new do |context, params|
-    context.response.print params["id"] # get :id in url from params
-    context
-  end
-
-  # POST "/user"
-  @register_user = API.new do |context|
-    context
-  end
-
   def initialize
-    # Define routes in `draw` block
-    draw(@route_handler) do
-      get "/", @index
-      get "/user/:id", @user
-      post "/user", @register_user
+  end
+
+  # Define a method to draw routes of your server
+  # Here we define
+  # GET  "/"
+  # GET  "/user/:id"
+  # POST "/user"
+  def draw_routes
+    # Define index access for this server
+    # We just print a result "Hello router.cr!" here
+    get "/" do |context, params|
+      context.response.print "Hello router.cr!"
+      context
     end
 
-    # Try
-    # curl localhost:3000
-    # curl localhost:3000/user/3
-    # curl localhost:3000/user -X POST
+    # You can get path parameter from `params` param
+    # It's a Hash of String => String
+    get "/user/:id" do |context, params|
+      context.response.print params["id"]
+      context
+    end
+
+    # Currently you can define a methods in following list
+    # get     -> GET
+    # post    -> POST
+    # put     -> PUT
+    # patch   -> PATCH
+    # delete  -> DELETE
+    # options -> OPTIONS
+    # Here we define POST route
+    post "/user" do |context, params|
+      context
+    end
   end
 
+  # Running this server on port 3000
+  # router_handler getter of RouteHandler
+  # that's defined in Router module
   def run
-    # set RouteHandler to your server
-    server = HTTP::Server.new(3000, @route_handler)
+    server = HTTP::Server.new(3000, route_handler)
     server.listen
   end
 end
 
-# Initialize WebServer.class
 web_server = WebServer.new
-
-# Start running
+web_server.draw_routes
 web_server.run
