@@ -21,8 +21,6 @@ describe Router do
     result.not_nil!.body.should eq("params:1")
     result = curl("GET", "/params/2")
     result.not_nil!.body.should eq("params:2")
-    result = curl("GET", "/params/2?q=hoge")
-    result.not_nil!.body.should eq("params:2, query_params:hoge")
   end
 
   it "#test_param" do

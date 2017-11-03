@@ -108,7 +108,6 @@ class WebServer
   end
 end
 ```
-Note that `params` also includes query params such as `/user?id=3`.
 
 See [sample](https://github.com/tbrand/router.cr/blob/master/sample/sample.cr) and [tips]([sample](https://github.com/tbrand/router.cr/blob/master/sample/tips.cr)) for details.
 

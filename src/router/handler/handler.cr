@@ -10,21 +10,14 @@ module Router
       method = context.request.method
       route = @tree.find(method.upcase + context.request.path)
 
-      # Merge query params into path params
-      context.request.query_params.each do |k, v|
-        route.params[k] = v unless route.params.has_key?(k)
-      end
+      return { action: route.payload, params: route.params } if route.found?
 
-      if route.found?
-        return RouteContext.new(route.payload, route.params)
-      end
-      
       nil
     end
 
     def call(context : HTTP::Server::Context)
       if route_context = search_route(context)
-        route_context.action.call(context, route_context.params)
+        route_context[:action].call(context, route_context[:params])
       else
         call_next(context)
       end
