@@ -6,7 +6,7 @@
 ---
 
 The default web server of the Crystal is quite good :smile: but it weak at routing :cry:.  
-Kemal is an awesome defacto standard web framework for Crystal :smile:, but it's too fat for some purpose :cry:.
+Kemal or other web frameworks written in Crystal are awesome :smile:, but it's too fat for some purpose :cry:.
 
 **router.cr** is a **minimum** but **High Performance** middleware for Crystal web server.  
 See the amazing performance of **router.cr** [here](https://github.com/tbrand/which_is_the_fastest).:rocket:
@@ -36,38 +36,58 @@ class WebServer
 end
 ```
 
-In the following sample codes, `class WebServer ... end` will be omitted.
-To initialize RouteHandler
+Define a method to draw all routes for your web server.
 ```crystal
-@route_handler = RouteHandler.new
-```
-
-To define API, call API.new with `context` and `params`(optional) where context is HTTP::Server::Context and params is Hash(String, String). All APIs have to return the context at end of the method. In this example, params is omitted. (The usage of params is later)
-```crystal
-@index = API.new do |context|
-  context.response.print "Hello router.cr"
-  context # returning context
+class WebServer
+  include Router
+  
+  def draw_routes
+    # Drawing routes HERE!
+  end
 end
 ```
 
-Define your routes in a `draw` block.
-```crystal
-draw(@route_handler) do # Draw routes
-  get "/", @index
+In that method, call HTTP method name (downcase) like `get` or `post` with PATH and BLOCK where
+ - PATH  : String
+ - BLOCK : block of HTTP::Server::Context, Hash(String, String) -> HTTP::Server::Context
+```
+class WebServer
+  include Router
+
+  def draw_routes
+    get "/" do |context, params|
+      context.response.print "Hello router.cr!"
+	  context
+	end
+  end
 end
 ```
 
-To activate the routes
-```crystal
-def run
-  server = HTTP::Server.new(3000, @route_handler) # Set RouteHandler to your server
-  server.listen
+Here we've defined a GET route at root path (/) that just print out "Hello router.cr" when we get access.
+To activate (run) the route, just define run methods for your server with route_handler
+```
+class WebServer
+  include Router
+  
+  def draw_routes
+    get "/" do |context, params|
+      context.response.print "Hello router.cr!"
+	  context
+	end
+  end
+  
+  def run
+    server = HTTP::Server.new(3000, route_handler)
+    server.listen
+  end
 end
 ```
+Here route_handler is getter defined in Router. So you can call `route_handler` at anywhere in WebServer instance.
 
 Finally, run your server.
 ```crystal
 web_server = WebServer.new
+web_server.draw_routes
 web_server.run
 ```
 
@@ -78,37 +98,12 @@ See [sample](https://github.com/tbrand/router.cr/blob/master/sample/sample.cr) a
 `params` is a Hash(String, String) that is used when you define a path parameters such as `/user/:id` (`:id` is a parameters). Here is an example.
 ```crystal
 class WebServer
-  @route_handler = RouteHandler.new
+  include Router
 
-  @user = API.new do |context, params|
-    context.response.print params["id"] # get :id in url from params
-    context
-  end
-
-  def initialize
-    draw(@route_handler) do
-      get "/user/:id", @user
-    end
-  end
-end
-```
-
-`params` also includes query params such as `/user?id=3`. Here is an example.
-```crystal
-class WebServer
-  @route_handler = RouteHandler.new
-
-  @user = API.new do |context, params|
-    response_body = "user: "
-    # Get a query param like /user?id=3
-    response_body += params["id"] if params.has_key?("id")
-    context.response.print response_body
-    context
-  end
-
-  def initialize
-    draw(@route_handler) do
-      get "/user", @user
+  def draw_routes
+    get "/user/:id" do |context, params|
+      context.response.print params["id"] # get :id in url from params
+      context
     end
   end
 end

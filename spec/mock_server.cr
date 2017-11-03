@@ -6,45 +6,40 @@ class MockServer
   @server : HTTP::Server?
   @route_handler = RouteHandler.new
 
-  @index = API.new do |context|
-    context.response.print "index"
-    context
-  end
+  def draw_routes
+    get "/" do |context, params|
+      context.response.print "index"
+      context
+    end
 
-  @param = API.new do |context, params|
-    result_body = "params:#{params["id"]}"
-    result_body += ", query_params:#{params["q"]}" if params.has_key?("q")
-    context.response.print result_body
-    context
-  end
+    get "/params/:id" do |context, params|
+      context.response.print "params:#{params["id"]}"
+      context
+    end
 
-  @test_param = API.new do |context, params|
-    context.response.print "params:#{params["id"]}, #{params["test_id"]}"
-    context
-  end
+    get "/params/:id/test/:test_id" do |context, params|
+      context.response.print "params:#{params["id"]}, #{params["test_id"]}"
+      context
+    end
 
-  @post_test = API.new do |context, params|
-    context.response.print "ok"
-    context
-  end
+    post "/post_test" do |context, params|
+      context.response.print "ok"
+      context
+    end
 
-  @put_test = API.new do |context, params|
-    context.response.print "ok"
-    context
-  end
-
-  def initialize(@port : Int32)
-    draw(@route_handler) do
-      get "/", @index
-      get "/params/:id", @param
-      get "/params/:id/test/:test_id", @test_param
-      put "/put_test", @put_test
-      post "/post_test", @post_test
+    put "/put_test" do |context, params|
+      context.response.print "ok"
+      context
     end
   end
 
+  def initialize(@port : Int32)
+  end
+
   def run
-    @server = HTTP::Server.new(@port, [@route_handler]).listen
+    draw_routes
+
+    @server = HTTP::Server.new(@port, [route_handler]).listen
   end
 
   def close
