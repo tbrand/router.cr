@@ -50,30 +50,30 @@ end
 In that method, call HTTP method name (downcase) like `get` or `post` with PATH and BLOCK where
  - PATH  : String
  - BLOCK : block of HTTP::Server::Context, Hash(String, String) -> HTTP::Server::Context
-```
+```crystal
 class WebServer
   include Router
 
   def draw_routes
     get "/" do |context, params|
       context.response.print "Hello router.cr!"
-	  context
-	end
+      context
+    end
   end
 end
 ```
 
 Here we've defined a GET route at root path (/) that just print out "Hello router.cr" when we get access.
 To activate (run) the route, just define run methods for your server with route_handler
-```
+```crystal
 class WebServer
   include Router
   
   def draw_routes
     get "/" do |context, params|
       context.response.print "Hello router.cr!"
-	  context
-	end
+      context
+    end
   end
   
   def run
