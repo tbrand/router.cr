@@ -8,9 +8,9 @@ module Router
 
     def search_route(context : HTTP::Server::Context) : RouteContext?
       method = context.request.method
-      route = @tree.find(method.upcase + context.request.path)
+      route = @tree.find("/" + method.upcase + context.request.path)
 
-      return { action: route.payload, params: route.params } if route.found?
+      return {action: route.payload, params: route.params} if route.found?
 
       nil
     end
