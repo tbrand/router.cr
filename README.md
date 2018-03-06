@@ -40,7 +40,7 @@ Define a method to draw all routes for your web server.
 ```crystal
 class WebServer
   include Router
-  
+
   def draw_routes
     # Drawing routes HERE!
   end
@@ -68,17 +68,12 @@ To activate (run) the route, just define run methods for your server with route_
 ```crystal
 class WebServer
   include Router
-  
+
   def draw_routes
     get "/" do |context, params|
       context.response.print "Hello router.cr!"
       context
     end
-  end
-  
-  def run
-    server = HTTP::Server.new(3000, route_handler)
-    server.listen
   end
 end
 ```
@@ -86,9 +81,7 @@ Here route_handler is getter defined in Router. So you can call `route_handler` 
 
 Finally, run your server.
 ```crystal
-web_server = WebServer.new
-web_server.draw_routes
-web_server.run
+web_server = WebServer.new.run 3000
 ```
 
 See [sample](https://github.com/tbrand/router.cr/blob/master/sample/sample.cr) and [tips]([sample](https://github.com/tbrand/router.cr/blob/master/sample/tips.cr)) for details.

@@ -1,10 +1,7 @@
 require "../src/router"
 
-class MockServer
+struct MockServer
   include Router
-
-  @server : HTTP::Server?
-  @route_handler = RouteHandler.new
 
   def draw_routes
     get "/" do |context, params|
@@ -30,21 +27,6 @@ class MockServer
     put "/put_test" do |context, params|
       context.response.print "ok"
       context
-    end
-  end
-
-  def initialize(@port : Int32)
-  end
-
-  def run
-    draw_routes
-
-    @server = HTTP::Server.new(@port, [route_handler]).listen
-  end
-
-  def close
-    if server = @server
-      server.close
     end
   end
 end
