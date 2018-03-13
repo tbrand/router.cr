@@ -3,10 +3,10 @@ require "./mock_server"
 require "./curl"
 
 describe Router do
-  mock_server = MockServer.new(3000)
+  mock_server = MockServer.new
 
   spawn do
-    mock_server.run
+    mock_server.run 3000
   end
 
   sleep 0.5

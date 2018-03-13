@@ -1,18 +1,15 @@
 require "../src/router"
 
-class WebServer
+struct WebServer
   # Add Router functions to WebServer
   include Router
-
-  def initialize
-  end
 
   # Define a method to draw routes of your server
   # Here we define
   # GET  "/"
   # GET  "/user/:id"
   # POST "/user"
-  def draw_routes
+  def draw
     # Define index access for this server
     # We just print a result "Hello router.cr!" here
     get "/" do |context, params|
@@ -43,12 +40,7 @@ class WebServer
   # Running this server on port 3000
   # router_handler getter of RouteHandler
   # that's defined in Router module
-  def run
-    server = HTTP::Server.new(3000, route_handler)
-    server.listen
-  end
+
 end
 
-web_server = WebServer.new
-web_server.draw_routes
-web_server.run
+WebServer.new.run 3000
