@@ -15,7 +15,7 @@ require "../src/router"
 struct WebServer
   include Router
 
-  def draw_routes
+  def draw
     get "/" do |context, params|
       context.response.print "OK"
       context

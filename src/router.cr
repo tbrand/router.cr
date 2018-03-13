@@ -17,18 +17,21 @@ module Router
     end
   {% end %}
 
+  def draw
+  end
+
   def run(port : Int32 = 3000)
-    draw_routes
+    draw
     @server = HTTP::Server.new(port, [@route_handler]).listen
   end
 
   def run(host : String = "127.0.0.1", port : Int32 = 3000)
-    draw_routes
+    draw
     @server = HTTP::Server.new(host, port, [@route_handler]).listen
   end
 
   def run(host : String = "127.0.0.1", port : Int32 = 3000, handlers : Array(HTTP::Handler) = Array(HTTP::Handler))
-    draw_routes
+    draw
     @server = HTTP::Server.new(host, port, handlers + [@route_handler]).listen
   end
 

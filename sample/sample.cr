@@ -9,7 +9,7 @@ struct WebServer
   # GET  "/"
   # GET  "/user/:id"
   # POST "/user"
-  def draw_routes
+  def draw
     # Define index access for this server
     # We just print a result "Hello router.cr!" here
     get "/" do |context, params|

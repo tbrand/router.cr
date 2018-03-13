@@ -41,7 +41,7 @@ Define a method to draw all routes for your web server.
 class WebServer
   include Router
 
-  def draw_routes
+  def draw
     # Drawing routes HERE!
   end
 end
@@ -54,7 +54,7 @@ In that method, call HTTP method name (downcase) like `get` or `post` with PATH 
 class WebServer
   include Router
 
-  def draw_routes
+  def draw
     get "/" do |context, params|
       context.response.print "Hello router.cr!"
       context
@@ -69,7 +69,7 @@ To activate (run) the route, just define run methods for your server with route_
 class WebServer
   include Router
 
-  def draw_routes
+  def draw
     get "/" do |context, params|
       context.response.print "Hello router.cr!"
       context
@@ -93,7 +93,7 @@ See [sample](https://github.com/tbrand/router.cr/blob/master/sample/sample.cr) a
 class WebServer
   include Router
 
-  def draw_routes
+  def draw
     get "/user/:id" do |context, params|
       context.response.print params["id"] # get :id in url from params
       context
