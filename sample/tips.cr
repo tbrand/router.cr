@@ -43,7 +43,7 @@ class WebServer
     #    StaticFileHandler will pass the access to the RouteHandler
     #    if the file or directory does not exist.
     # 4. So RouteHandler should be last.
-    # 
+    #
     # The array of the handlers should be like this.
     # Note: if a route can't be handled by RouteHandler (a.k.a. route not found)
     # and this handler is the last, a 404 error response will be returned;
