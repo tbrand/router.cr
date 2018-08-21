@@ -77,7 +77,8 @@ class WebServer
   end
   
   def run
-    server = HTTP::Server.new(3000, route_handler)
+    server = HTTP::Server.new(route_handler)
+    server.bind_tcp 8080
     server.listen
   end
 end
