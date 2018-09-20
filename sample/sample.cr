@@ -44,7 +44,8 @@ class WebServer
   # router_handler getter of RouteHandler
   # that's defined in Router module
   def run
-    server = HTTP::Server.new(3000, route_handler)
+    server = HTTP::Server.new(route_handler)
+    server.bind_tcp("127.0.0.1", 3000)
     server.listen
   end
 end

@@ -55,7 +55,8 @@ class WebServer
       route_handler,
     ]
 
-    server = HTTP::Server.new(3000, handlers)
+    server = HTTP::Server.new(handlers)
+    server.bind_tcp("127.0.0.1", 3000)
     server.listen
 
     # Try

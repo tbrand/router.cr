@@ -3,7 +3,7 @@ require "../src/router"
 class MockServer
   include Router
 
-  @server : HTTP::Server?
+  @server : HTTP::Server
   @route_handler = RouteHandler.new
 
   def draw_routes
@@ -34,12 +34,14 @@ class MockServer
   end
 
   def initialize(@port : Int32)
+    draw_routes
+
+    @server = HTTP::Server.new([route_handler])
+    @server.bind_tcp("127.0.0.1", @port)
   end
 
   def run
-    draw_routes
-
-    @server = HTTP::Server.new(@port, [route_handler]).listen
+    @server.listen
   end
 
   def close
