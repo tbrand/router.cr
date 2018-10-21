@@ -1,7 +1,7 @@
 <img src="https://cloud.githubusercontent.com/assets/3483230/25668495/c3c28574-3061-11e7-9dbd-969d95eb4bf8.png" width="200" />
 
 [![Build Status](https://travis-ci.org/tbrand/router.cr.svg?branch=master)](https://travis-ci.org/tbrand/router.cr)
-[![GitHub release](https://img.shields.io/github/release/tbrand/router.cr.svg)](https://github.com/tbrand/router.cr/releases)
+[![GitHub tag](https://img.shields.io/github/tag/tbrand/router.cr.svg)](https://github.com/tbrand/router.cr/tags)
 
 ---
 
