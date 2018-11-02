@@ -4,12 +4,15 @@ module Router
 
     def initialize
       @tree = Radix::Tree(Action).new
+      @static_routes = {} of String => Action
     end
 
     def search_route(context : HTTP::Server::Context) : RouteContext?
-      method = context.request.method
-      route = @tree.find("/" + method.upcase + context.request.path)
+      search_path = "/" + context.request.method + context.request.path
+      action = @static_routes[search_path]?
+      return {action: action, params: {} of String => String} if action
 
+      route = @tree.find(search_path)
       return {action: route.payload, params: route.params} if route.found?
 
       nil
@@ -24,7 +27,16 @@ module Router
     end
 
     def add_route(key : String, action : Action)
-      @tree.add(key, action)
+      if key.includes? ':'
+        @tree.add(key, action)
+      else
+        @static_routes[key] = action
+        if key.ends_with? '/'
+          @static_routes[key[0..-2]] = action
+        else
+          @static_routes[key + "/"] = action
+        end
+      end
     end
   end
 end
