@@ -27,7 +27,7 @@ module Router
     end
 
     def add_route(key : String, action : Action)
-      if key.includes? ':'
+      if key.includes?(':') || key.includes?('*')
         @tree.add(key, action)
       else
         @static_routes[key] = action
