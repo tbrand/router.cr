@@ -1,7 +1,7 @@
 # Just curl localhost where mock server is listening
 
 def curl(method : String, path : String) : HTTP::Client::Response?
-  client = HTTP::Client.new "localhost", 3000
+  client = HTTP::Client.new "127.0.0.1", 3000
 
   response = nil
   case method
@@ -11,6 +11,8 @@ def curl(method : String, path : String) : HTTP::Client::Response?
     response = client.post path
   when "PUT"
     response = client.put path
+  when "HEAD"
+    response = client.head path
   end
 
   client.close

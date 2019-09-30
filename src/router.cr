@@ -7,7 +7,7 @@ module Router
 
   getter route_handler : RouteHandler = RouteHandler.new
 
-  HTTP_METHODS = %w(get post put patch delete options)
+  HTTP_METHODS = %w(get post put patch delete options head)
 
   # Define each method for supported http methods
   {% for http_method in HTTP_METHODS %}
