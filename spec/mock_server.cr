@@ -7,7 +7,7 @@ class MockServer
   @route_handler = RouteHandler.new
 
   def draw_routes
-    get "/" do |context, params|
+    get "/" do |context, _|
       context.response.print "index"
       context
     end
@@ -22,12 +22,12 @@ class MockServer
       context
     end
 
-    post "/post_test" do |context, params|
+    post "/post_test" do |context, _|
       context.response.print "ok"
       context
     end
 
-    put "/put_test" do |context, params|
+    put "/put_test" do |context, _|
       context.response.print "ok"
       context
     end
