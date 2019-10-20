@@ -1,16 +1,7 @@
 require "./spec_helper"
-require "./mock_server"
 require "./curl"
 
 describe Router do
-  mock_server = MockServer.new(3000)
-
-  spawn do
-    mock_server.run
-  end
-
-  sleep 0.5
-
   it "#index" do
     result = curl("GET", "/")
     result.not_nil!.body.should eq("index")
@@ -44,6 +35,4 @@ describe Router do
     result = curl("GET", "/unknown_path")
     result.not_nil!.status_code.should eq(404)
   end
-
-  mock_server.close
 end

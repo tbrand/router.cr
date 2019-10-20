@@ -24,7 +24,7 @@ class WebServer
   end
 
   def draw_routes
-    get "/" do |context, params|
+    get "/" do |context, _|
       context.response.print "OK"
       context
     end

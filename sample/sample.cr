@@ -15,7 +15,7 @@ class WebServer
   def draw_routes
     # Define index access for this server
     # We just print a result "Hello router.cr!" here
-    get "/" do |context, params|
+    get "/" do |context, _|
       context.response.print "Hello router.cr!"
       context
     end
@@ -35,7 +35,7 @@ class WebServer
     # delete  -> DELETE
     # options -> OPTIONS
     # Here we define POST route
-    post "/user" do |context, params|
+    post "/user" do |context, _|
       context
     end
   end
