@@ -31,6 +31,11 @@ describe Router do
     result.not_nil!.body.should eq("ok")
   end
 
+  it "#head_test" do
+    result = curl("HEAD", "/head_test")
+    result.not_nil!.status_code.should eq(204)
+  end
+
   it "#unknown_path" do
     result = curl("GET", "/unknown_path")
     result.not_nil!.status_code.should eq(404)

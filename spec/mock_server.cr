@@ -31,6 +31,11 @@ class MockServer
       context.response.print "ok"
       context
     end
+
+    head "/head_test" do |context, params|
+      context.response.status_code = 204
+      context
+    end
   end
 
   def initialize(@port : Int32)
