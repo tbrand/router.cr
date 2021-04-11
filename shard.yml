@@ -1,5 +1,7 @@
 name: router
-version: 0.2.7
+version: 0.2.8
+
+crystal: 1.0.0
 
 authors:
   - Taichiro Suzuki <taichiro0709@gmail.com>
